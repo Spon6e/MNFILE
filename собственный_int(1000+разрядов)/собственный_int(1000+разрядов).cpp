@@ -44,7 +44,7 @@ public:
     VERYLONG operator +(const VERYLONG);
     VERYLONG operator *(const VERYLONG);
 //    VERYLONG operator /(const VERYLONG);
-//    VERYLONG operator -(const VERYLONG);
+    VERYLONG operator -(const VERYLONG);
 };
 VERYLONG VERYLONG::operator+(VERYLONG v) {
     char t[GG];
@@ -114,10 +114,37 @@ VERYLONG VERYLONG::umn10(const VERYLONG v) const {
     t[v.dlina + 1] = '\0';
     return VERYLONG(t);
 }
-/*
-VERYLONG VERYLONG::operator-(VERYLONG v) {
 
-}
+VERYLONG VERYLONG::operator-(VERYLONG v) {
+    char t[GG];
+    int count = 0;
+    int i;
+    int g=0;
+    for (i = 0; i < dlina; i++) {
+        int d = chislo[i] - '0';
+        int dv = 0;
+        if (v.dlina>i)
+            dv = v.chislo[i] - '0';
+        if (d - count < dv) {
+            t[i] = '0' + (d + 10 - dv - count);
+            count = 1;
+        }
+        else {
+            t[i] = '0' + (d - dv - count);
+            count = 0;
+        }
+    }
+    while (g == 0) {
+        if (t[i - 1] == '0') {
+            t[--i] = '\0';
+        }
+        else {
+            t[i] = '\0';
+            g = 1;
+        }
+    }
+    return VERYLONG(t);
+}/*
 VERYLONG VERYLONG::operator/(VERYLONG v) {
 
 }
@@ -140,6 +167,11 @@ int main()
     for (long int i = 100; i > 0; i--) {
         F = F * i;
     }
+    F.vivod();
+    VERYLONG O, G;
+    O.vvod();
+    G.vvod();
+    F = O - G;
     F.vivod();
 
     //VERYLONG J, J1, JS;
