@@ -78,9 +78,24 @@ public:
         else
             zn = pos;
     }
+    bool operator >=(const VERYLONG g) {
+        if (dlina > g.dlina)
+            return true;
+        else
+            if (dlina < g.dlina)
+                return false;
+        for (int i = dlina - 1; i >= 0; i--) {
+            if (chislo[i] - g.chislo[i] > 0)
+                return true;
+            else
+                if (chislo[i] - g.chislo[i] < 0)
+                    return false;
+        }
+        return true;
+    }
     VERYLONG operator +(const VERYLONG);
     VERYLONG operator *(const VERYLONG);
-    //VERYLONG operator /(const VERYLONG);
+    VERYLONG operator /(const VERYLONG);
     VERYLONG operator -(const VERYLONG);
 };
 VERYLONG VERYLONG::operator+(VERYLONG v) {
@@ -211,18 +226,21 @@ VERYLONG VERYLONG::operator-(VERYLONG v) {
             switch (k) {
             case 0:
                 for (int i = dlina - 1; i >= 0; i--) {
-                    int a = (chislo[i] - '0') - (v.chislo[i] - '0');
+                    int a = chislo[i] - v.chislo[i];
                     if (a > 0) {
                         k = 1;
                         break;
                     }
-                    else if (a < 0) {
-                        k = 2;
-                        break;
-                    }
+                    else 
+                        if (a < 0) {
+                            k = 2;
+                            break;
+                        }
                 }
-                
-                return(L);
+                if (k == 0) {
+                    return(L);
+                }
+                break;
             case 1:
                 for (i = 0; i < dlina; i++) {
                     int d = chislo[i] - '0';
@@ -250,11 +268,11 @@ VERYLONG VERYLONG::operator-(VERYLONG v) {
                 return VERYLONG(t);
                 break;
             case 2:
-                for (i = 0; i < dlina; i++) {
-                    int d = chislo[i] - '0';
+                for (i = 0; i < v.dlina; i++) {
+                    int d = v.chislo[i] - '0';
                     int dv = 0;
-                    if (v.dlina > i)
-                        dv = v.chislo[i] - '0';
+                    if (dlina > i)
+                        dv = chislo[i] - '0';
                     if (d - count < dv) {
                         t[i] = '0' + (d + 10 - dv - count);
                         count = 1;
@@ -282,12 +300,14 @@ VERYLONG VERYLONG::operator-(VERYLONG v) {
         
     }
     
-}/*
+}
 VERYLONG VERYLONG::operator/(VERYLONG v) {
-    char t[GG];
-    bool g = false;
-    int m = 0;
-}*/
+    if (*this >= v) {
+
+    }
+    else
+        return VERYLONG('0');
+}
 
 int main()
 {
@@ -319,8 +339,7 @@ int main()
     //J1.vvod();
     //JS = J * 56238;
     //JS.vivod();
-
-    VERYLONG HT(13), GP(987), MM;
+    VERYLONG HT(3), GP(987), MM;
     MM = HT - GP;
     MM.vivod();
     _getch();
